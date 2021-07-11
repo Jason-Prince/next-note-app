@@ -1,6 +1,7 @@
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
+import { GetServerSideProps } from "next";
 
 const Index = ({ notes }) => {
     return (
@@ -35,11 +36,28 @@ const Index = ({ notes }) => {
     );
 };
 
-Index.getInitialProps = async () => {
+// Index.getInitialProps = async () => {
+//     const res = await fetch("http://localhost:3000/api/notes");
+//     const { data } = await res.json();
+
+//     return { notes: data };
+// };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const res = await fetch("http://localhost:3000/api/notes");
     const { data } = await res.json();
 
-    return { notes: data };
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
+
+    const serializedData = JSON.parse(JSON.stringify(data));
+
+    return {
+        props: { notes: serializedData },
+    };
 };
 
 export default Index;

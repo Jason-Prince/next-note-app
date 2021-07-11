@@ -2,10 +2,10 @@ import dbConnect from '@/utils/dbConnect';
 import Note from '@/models/Note';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-dbConnect();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method } = req;
+  await dbConnect();
+  const { method, body } = req;
   switch (method) {
     case 'GET':
       try {
@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     case 'POST':
       try {
-        const note = await Note.create(req.body);
+        const note = await Note.create(body);
         res.status(201).json({ success: true, data: note })
       } catch (error) {
         res.status(400).json({ success: false });
