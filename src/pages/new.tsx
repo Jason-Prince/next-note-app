@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 const NewNote = () => {
     const [form, setForm] = useState({ title: "", description: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({ title: "", description: "" });
     const router = useRouter();
 
     useEffect(() => {
@@ -51,7 +51,10 @@ const NewNote = () => {
     };
 
     const validate = () => {
-        let err = {};
+        let err = {
+            title: "",
+            description: "",
+        };
 
         if (!form.title) {
             err.title = "Title is required";
