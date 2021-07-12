@@ -2,13 +2,13 @@ import dbConnect from '@/utils/dbConnect';
 import Note from '@/models/Note';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-dbConnect();
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { id },
     method
   } = req;
+
+  await dbConnect();
 
   switch (method) {
     case 'GET':
@@ -18,9 +18,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (!note) {
           return res.status(400).json({ success: false });
         }
-        res.status(200).json({ success: true, data: note });
+        return res.status(200).json({ success: true, data: note });
       } catch (error) {
-        res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
       }
     case 'PUT':
       try {
@@ -33,11 +33,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           return res.status(400).json({ success: false });
         }
 
-        res.status(200).json({ success: true, data: note });
+        return res.status(200).json({ success: true, data: note });
       } catch (error) {
-        res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
       }
       break;
+
     case 'DELETE':
       try {
         const deletedNote = await Note.deleteOne({ _id: id });
@@ -46,13 +47,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           return res.status(400).json({ success: false });
         }
 
-        res.status(200).json({ success: true, data: {} });
+        return res.status(200).json({ success: true, data: {} });
       } catch (error) {
-        res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
       }
       break;
     default:
-      res.status(400).json({ success: false });
+      return res.status(400).json({ success: false });
       break;
 
   }

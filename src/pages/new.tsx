@@ -72,7 +72,6 @@ const NewNote = () => {
                 ) : (
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
-                            fluid
                             error={errors.title ? { content: "Please enter a title", pointing: "below" } : null}
                             label="Title"
                             placeholder="Title"
@@ -80,7 +79,6 @@ const NewNote = () => {
                             onChange={handleChange}
                         />
                         <Form.TextArea
-                            fluid
                             label="Descriprtion"
                             placeholder="Description"
                             name="description"

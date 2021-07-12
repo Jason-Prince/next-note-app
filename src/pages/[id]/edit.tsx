@@ -5,15 +5,24 @@ import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
+interface Form {
+    title: string;
+    description: string;
+}
+interface Error {
+    title: string;
+    description: string;
+}
+
 const EditNote = ({ note }) => {
     const [form, setForm] = useState({ title: note.title, description: note.description });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({ title: "", description: "" });
     const router = useRouter();
 
     useEffect(() => {
         if (isSubmitting) {
-            if (Object.keys(errors).length === 0) {
+            if (errors.title == "" && errors.description == "") {
                 updateNote();
             } else {
                 setIsSubmitting(false);
@@ -52,7 +61,10 @@ const EditNote = ({ note }) => {
     };
 
     const validate = () => {
-        let err = {};
+        let err = {
+            title: "",
+            description: "",
+        };
 
         if (!form.title) {
             err.title = "Title is required";
@@ -73,7 +85,6 @@ const EditNote = ({ note }) => {
                 ) : (
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
-                            fluid
                             error={errors.title ? { content: "Please enter a title", pointing: "below" } : null}
                             label="Title"
                             placeholder="Title"
@@ -82,7 +93,6 @@ const EditNote = ({ note }) => {
                             onChange={handleChange}
                         />
                         <Form.TextArea
-                            fluid
                             label="Descriprtion"
                             placeholder="Description"
                             name="description"

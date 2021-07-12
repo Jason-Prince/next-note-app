@@ -4,8 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  await dbConnect();
   const { method, body } = req;
+  await dbConnect();
   switch (method) {
     case 'GET':
       try {
