@@ -2,7 +2,6 @@ import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Card } from "semantic-ui-react";
 import { GetServerSideProps } from "next";
-import { server } from "@/config";
 
 const Index = ({ notes }) => {
     return (
@@ -45,7 +44,7 @@ const Index = ({ notes }) => {
 // };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const res = await fetch(`${server}/notes`);
+    const res = await fetch(`${process.env.API_URL}/notes`);
     const { data } = await res.json();
 
     if (!data) {

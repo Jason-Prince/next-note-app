@@ -4,7 +4,6 @@ import fetch from "isomorphic-unfetch";
 import { Button, Form, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
-import { server } from "@/config";
 
 interface Form {
     title: string;
@@ -33,7 +32,7 @@ const EditNote = ({ note }) => {
 
     const updateNote = async () => {
         try {
-            const res = await fetch(`${server}/notes/${router.query.id}`, {
+            const res = await fetch(`${process.env.API_URL}/notes/${router.query.id}`, {
                 method: "PUT",
                 headers: {
                     Accept: "application/json",
@@ -112,7 +111,7 @@ const EditNote = ({ note }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query: { id } }) => {
-    const res = await fetch(`${server}/notes/${id}`);
+    const res = await fetch(`${process.env.API_URL}/notes/${id}`);
     const { data } = await res.json();
     return { props: { note: data } };
 };
