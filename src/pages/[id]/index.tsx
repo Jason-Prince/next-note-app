@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Confirm, Button, Loader } from "semantic-ui-react";
 import { GetServerSideProps } from "next";
+import { server } from "@/config";
 
 import React from "react";
 
@@ -26,7 +27,7 @@ const Note = ({ note }) => {
     const deleteNote = async () => {
         const noteId = router.query.id;
         try {
-            const deleted = await fetch(`http://localhost:3000/api/notes/${noteId}`, {
+            const deleted = await fetch(`${server}/notes/${noteId}`, {
                 method: "Delete",
             });
 
@@ -54,7 +55,7 @@ const Note = ({ note }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query: { id } }) => {
-    const res = await fetch(`http://localhost:3000/api/notes/${id}`);
+    const res = await fetch(`${server}/notes/${id}`);
     const { data } = await res.json();
     return { props: { note: data } };
 };
