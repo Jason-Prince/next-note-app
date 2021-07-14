@@ -44,7 +44,7 @@ const Index = ({ notes }) => {
 // };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const res = await fetch(`${process.env.API_URL}/notes`);
+    const res = await fetch(`${process.env.API_URL}/api/notes`);
     const { data } = await res.json();
 
     if (!data) {

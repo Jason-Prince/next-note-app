@@ -26,7 +26,7 @@ const Note = ({ note }) => {
     const deleteNote = async () => {
         const noteId = router.query.id;
         try {
-            const deleted = await fetch(`${process.env.API_URL}/notes/${noteId}`, {
+            const deleted = await fetch(`${process.env.API_URL}/api/notes/${noteId}`, {
                 method: "Delete",
             });
 
@@ -54,7 +54,7 @@ const Note = ({ note }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query: { id } }) => {
-    const res = await fetch(`${process.env.API_URL}/notes/${id}`);
+    const res = await fetch(`${process.env.API_URL}/api/notes/${id}`);
     const { data } = await res.json();
     return { props: { note: data } };
 };
