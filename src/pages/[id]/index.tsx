@@ -56,7 +56,17 @@ const Note = ({ note }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query: { id } }) => {
     const res = await fetch(`${process.env.API_URL}/api/notes/${id}`);
     const { data } = await res.json();
-    return { props: { note: data } };
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
+
+    const serializedData = JSON.parse(JSON.stringify(data));
+
+    return {
+        props: { note: serializedData },
+    };
 };
 
 export default Note;
