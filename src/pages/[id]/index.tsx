@@ -56,6 +56,7 @@ const Note = ({ note }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query: { id } }) => {
     const res = await fetch(`${process.env.API_URL}/api/notes/${id}`);
     const { data } = await res.json();
+
     if (!data) {
         return {
             notFound: true,
